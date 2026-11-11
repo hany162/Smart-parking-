@@ -1,0 +1,499 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SmartPark - Home</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f5f7ff;
+    color: #101b36;
+}
+
+.app {
+    max-width: 430px;
+    min-height: 100vh;
+    margin: auto;
+    background: #fff;
+    padding-bottom: 90px;
+}
+
+/* HEADER */
+header {
+    padding: 25px 22px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 27px;
+    font-weight: bold;
+    color: #101b36;
+}
+
+.logo span {
+    color: #0866ef;
+}
+
+.notification {
+    font-size: 25px;
+}
+
+/* SEARCH */
+.search-area {
+    display: flex;
+    gap: 10px;
+    padding: 10px 20px 18px;
+}
+
+.search-area input {
+    flex: 1;
+    padding: 16px;
+    border: none;
+    border-radius: 30px;
+    background: #f1f3fa;
+    font-size: 14px;
+    outline: none;
+}
+
+.filter {
+    width: 50px;
+    border: none;
+    border-radius: 50%;
+    background: #edf2ff;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+/* MAP */
+.map {
+    height: 330px;
+    position: relative;
+    overflow: hidden;
+    background-color: #e8ebee;
+    background-image:
+      linear-gradient(30deg, transparent 46%, white 47%, white 50%, transparent 51%),
+      linear-gradient(120deg, transparent 46%, white 47%, white 50%, transparent 51%),
+      linear-gradient(90deg, transparent 48%, #fff 49%, #fff 51%, transparent 52%);
+    background-size: 100px 100px, 130px 130px, 85px 85px;
+}
+
+.park-pin {
+    position: absolute;
+    width: 42px;
+    height: 42px;
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 19px;
+    box-shadow: 0 3px 8px #777;
+}
+
+.park-pin span {
+    transform: rotate(45deg);
+}
+
+.blue { background: #0866ef; top: 42%; left: 46%; }
+.green1 { background: #219653; top: 25%; left: 15%; }
+.green2 { background: #219653; top: 57%; left: 75%; }
+.red { background: #e63946; top: 68%; left: 28%; }
+
+.map-label {
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    padding: 12px 18px;
+    border-radius: 15px;
+    box-shadow: 0 3px 12px #bbb;
+    white-space: nowrap;
+    font-weight: bold;
+}
+
+.map-label small {
+    display: block;
+    margin-top: 5px;
+    color: #e9a400;
+}
+
+.location-dot {
+    position: absolute;
+    top: 75%;
+    left: 49%;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #0866ef;
+    border: 4px solid white;
+    box-shadow: 0 0 0 10px #0866ef22;
+}
+
+/* PARKING CARD */
+.parking-card {
+    margin: -5px 16px 25px;
+    padding: 17px;
+    border-radius: 22px;
+    background: white;
+    box-shadow: 0 4px 18px #15244a18;
+    position: relative;
+}
+
+.parking-card h2 {
+    font-size: 19px;
+    margin-bottom: 8px;
+}
+
+.location {
+    color: #737d91;
+    font-size: 13px;
+    margin-bottom: 20px;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    text-align: center;
+}
+
+.stat {
+    padding: 5px;
+    border-right: 1px solid #e4e7ef;
+}
+
+.stat:last-child {
+    border: none;
+}
+
+.stat p {
+    font-size: 12px;
+    color: #737d91;
+    margin-bottom: 8px;
+}
+
+.stat h3 {
+    font-size: 22px;
+}
+
+.total h3 { color: #101b36; }
+.available h3 { color: #219653; }
+.occupied h3 { color: #e63946; }
+
+.book-btn {
+    width: 100%;
+    margin-top: 18px;
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    background: #0866ef;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.book-btn:hover {
+    background: #0052cc;
+}
+
+/* SECTIONS */
+.section {
+    padding: 0 20px;
+    margin-bottom: 25px;
+}
+
+.section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.section-title h2 {
+    font-size: 21px;
+}
+
+.section-title a {
+    color: #0866ef;
+    text-decoration: none;
+}
+
+/* STATUS */
+.status-box {
+    background: #edf2ff;
+    padding: 20px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.circle {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    border: 9px solid #0866ef;
+    border-left-color: #cbdcff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 21px;
+    font-weight: bold;
+}
+
+.status-info h3 {
+    font-size: 15px;
+    margin-bottom: 8px;
+}
+
+.status-info p {
+    font-size: 12px;
+    color: #65718a;
+}
+
+/* NEARBY */
+.nearby-card {
+    padding: 15px;
+    background: white;
+    border: 1px solid #e8ebf3;
+    border-radius: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.nearby-card h3 {
+    font-size: 15px;
+    margin-bottom: 8px;
+}
+
+.nearby-card p {
+    color: #69758d;
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+.nearby-stats {
+    font-size: 12px;
+    line-height: 2;
+    white-space: nowrap;
+}
+
+/* BOTTOM NAV */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 430px;
+    height: 75px;
+    background: white;
+    box-shadow: 0 -3px 15px #00000010;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.nav-item {
+    text-align: center;
+    color: #8992a5;
+    font-size: 11px;
+    cursor: pointer;
+}
+
+.nav-item div {
+    font-size: 22px;
+    margin-bottom: 5px;
+}
+
+.nav-item.active {
+    color: #0866ef;
+    font-weight: bold;
+}
+
+@media (min-width: 600px) {
+    body {
+        padding: 20px 0;
+    }
+
+    .app {
+        border-radius: 25px;
+        overflow: hidden;
+        box-shadow: 0 5px 30px #00000015;
+    }
+
+    .bottom-nav {
+        bottom: 20px;
+        border-radius: 0 0 25px 25px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <header>
+        <div class="logo">🅿 Smart<span>Park</span></div>
+        <div class="notification">🔔</div>
+    </header>
+
+    <div class="search-area">
+        <input type="text" placeholder="Search for parking near you...">
+        <button class="filter">☷</button>
+    </div>
+
+    <!-- MAP -->
+    <div class="map">
+
+        <div class="map-label">
+            Downtown Parking
+            <small>⭐ 4.7 (1.2k reviews)</small>
+        </div>
+
+        <div class="park-pin blue"><span>P</span></div>
+        <div class="park-pin green1"><span>P</span></div>
+        <div class="park-pin green2"><span>P</span></div>
+        <div class="park-pin red"><span>P</span></div>
+
+        <div class="location-dot"></div>
+    </div>
+
+    <!-- MAIN PARKING -->
+    <div class="parking-card">
+
+        <h2>Downtown Parking</h2>
+        <p class="location">📍 3.2 km • Downtown Area</p>
+
+        <div class="stats">
+
+            <div class="stat total">
+                <p>🚘 Total Spots</p>
+                <h3>120</h3>
+            </div>
+
+            <div class="stat available">
+                <p>🚘 Available</p>
+                <h3>85</h3>
+            </div>
+
+            <div class="stat occupied">
+                <p>🚘 Occupied</p>
+                <h3>35</h3>
+            </div>
+
+        </div>
+
+        <button class="book-btn" onclick="bookParking()">
+            Book Now
+        </button>
+
+    </div>
+
+    <!-- PARKING STATUS -->
+    <section class="section">
+
+        <div class="section-title">
+            <h2>Parking Status</h2>
+            <a href="#">View All →</a>
+        </div>
+
+        <div class="status-box">
+
+            <div class="circle">29%</div>
+
+            <div class="status-info">
+                <h3>Available Spaces</h3>
+                <p>85 of 120 spots available</p>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- NEARBY PARKINGS -->
+    <section class="section">
+
+        <div class="section-title">
+            <h2>Nearby Parkings</h2>
+        </div>
+
+        <div class="nearby-card">
+
+            <div>
+                <h3>City Center Parking</h3>
+                <p>⭐ 4.6 (980 reviews)</p>
+                <p>📍 1.1 km away</p>
+            </div>
+
+            <div class="nearby-stats">
+                🚘 Total: 80<br>
+                🟢 Available: 52<br>
+                🔴 Occupied: 28
+            </div>
+
+        </div>
+
+        <button class="book-btn" onclick="bookParking()">
+            Book This Parking
+        </button>
+
+    </section>
+
+    <!-- BOTTOM NAVIGATION -->
+    <nav class="bottom-nav">
+
+        <div class="nav-item active">
+            <div>⌂</div>
+            Home
+        </div>
+
+        <div class="nav-item">
+            <div>▦</div>
+            My Bookings
+        </div>
+
+        <div class="nav-item">
+            <div>▣</div>
+            Scan QR
+        </div>
+
+        <div class="nav-item">
+            <div>▥</div>
+            Reports
+        </div>
+
+        <div class="nav-item">
+            <div>♙</div>
+            Profile
+        </div>
+
+    </nav>
+
+</div>
+
+<script>
+function bookParking() {
+    alert("Parking selected! Booking page will open here.");
+}
+</script>
+
+</body>
+</html>
